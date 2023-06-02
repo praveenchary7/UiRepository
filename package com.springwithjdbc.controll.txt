@@ -1,0 +1,163 @@
+package com.springwithjdbc.controller;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.springwithjdbc.entity.Book;
+import com.springwithjdbc.repo.Bookrepo;
+
+@RestController
+public class Controller {
+
+	@Autowired
+	public Bookrepo bookrepo;
+
+	@PostMapping("savebook")
+	public ResponseEntity<Book> savebook(@RequestBody Book book) throws Exception {
+		System.out.println(book);
+		bookrepo.save(book);
+		ResponseEntity<Book> re = new ResponseEntity<>(book, HttpStatus.CREATED);
+		return re;
+	}
+
+	@PostMapping("saveallbooks")
+	public ResponseEntity<List<Book>> saveallbooks(@RequestBody List<Book> books) {
+		System.out.println(books);
+		bookrepo.saveAll(books);
+		ResponseEntity<List<Book>> re = new ResponseEntity<>(books, HttpStatus.OK);
+		return re;
+	}
+
+	@GetMapping("getbookbyid/{id}")
+	public ResponseEntity<Book> getbookbyid(@PathVariable Integer id) {
+		System.out.println("ID:" + id);
+		ResponseEntity<Book> re;
+		Optional<Book> opt = bookrepo.findById(id);
+		if (opt.isPresent()) {
+			System.out.println("book:" + opt.get());
+			re = new ResponseEntity<Book>(opt.get(), HttpStatus.OK);
+			return re;
+		} else {
+			System.out.println("No Book Found");
+			return new ResponseEntity<Book>(HttpStatus.NOT_FOUND);
+		}
+
+	}
+
+	@GetMapping("getallbooks")
+	public ResponseEntity<List<Book>> getallbooks() throws Exception {
+		List<Book> books = bookrepo.findAll();
+		ResponseEntity<List<Book>> re = new ResponseEntity<>(books, HttpStatus.OK);
+		if (false) {
+			throw new IOException();
+		} else
+			return re;
+
+	}
+
+	@DeleteMapping("delete")
+	public Book delete(@RequestBody Book book) {
+		System.out.println(book);
+		bookrepo.delete(book);
+		return book;
+
+	}
+
+	@GetMapping("Booksbyname/{name}")
+	public List<Book> getBooksbyname(@PathVariable(name = "name") String name) {
+		System.out.println("Name:" + name);
+		List<Book> books = bookrepo.findByName(name);
+		return books;
+
+	}
+
+	@GetMapping("Booksbynameandcost/{name}/{cost}")
+	public List<Book> getBooksbynameandcost(@PathVariable(name = "name") String name,
+			@PathVariable(name = "cost") double cost) {
+		System.out.println("Name:" + name + "Cost:" + cost);
+		List<Book> books = bookrepo.findByNameAndCost(name, cost);
+		return books;
+	}
+
+	@GetMapping("getBooksbynameStartingWith/{name}")
+	public List<Book> getBooksbynameStartingWith(@PathVariable(name = "name") String name) {
+		List<Book> books = bookrepo.findByNameStartingWith(name);
+		return books;
+
+	}
+
+	@GetMapping("getBooksbynamelike/{name}")
+	public List<Book> getBooksbynamelike(@PathVariable(name = "name") String name) {
+		System.out.println("Name:" + name);
+		List<Book> books = bookrepo.findByNameLike("%" + name + "%");
+		return books;
+
+	}
+
+	@PostMapping("savebookbydate")
+	public Book savebookbydate(@RequestBody Book book) {
+		System.out.println(book);
+		// book.setPublisheddate(new Date());
+		bookrepo.save(book);
+		return book;
+	}
+
+	@GetMapping("getBooksbycostbetween/{start}/{end}")
+	public List<Book> getBooksbycostbetween(@PathVariable(name = "start") double startcost,
+			@PathVariable(name = "end") double endcost) {
+		System.out.println("Name:" + startcost + "Name:" + endcost);
+		List<Book> books = bookrepo.findByCostBetween(startcost, endcost);
+		return books;
+	}
+
+	@GetMapping("getByCostLessThan/{cost}")
+	public List<Book> getByCostLessThan(@PathVariable(name = "cost") double cost) {
+		System.out.println("Name:" + cost);
+		List<Book> books = bookrepo.findByCostLessThan(cost);
+		return books;
+
+	}
+
+	@GetMapping("PublishedDateBefore/{date}")
+	public List<Book> getPublishedDateBefore(@PathVariable(name = "date") String datestr) throws Exception {
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = formater.parse(datestr);
+		List<Book> books = bookrepo.findBypublishedDateBefore(date);
+		return books;
+
+	}
+
+	@GetMapping("getPublishedDateAfter/{date}")
+	public List<Book> getPublishedDateAfter(@PathVariable(name = "date") String datestr) throws Exception {
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = formater.parse(datestr);
+		List<Book> books = bookrepo.findByPublishedDateAfter(date);
+		return books;
+
+	}
+
+	@GetMapping("getByPublishedDateBetween/{start}/{end}")
+	public List<Book> getByPublishedDateBetween(@PathVariable(name = "start") String start,
+			@PathVariable(name = "end") String end) throws Exception {
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		Date startdate = formater.parse(start);
+		Date enddate = formater.parse(end);
+		List<Book> books = bookrepo.findByPublishedDateBetween(startdate, enddate);
+		return books;
+
+	}
+
+}

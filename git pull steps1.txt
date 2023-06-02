@@ -1,0 +1,45 @@
+GIT HUB
+>>>>>>> TO GET CODE FROM GITHUB TO OUR FILE
+>>create repository in github   ex:sunny
+>>tap on readme and add some data
+>>go to git file
+>>go to gitbash here
+>>git clone paste_url
+>>dir
+>>cd sunny
+>>git pull
+>>the sunny folder is created in git file and the given readme file is created and the data is got
+
+ >>>>>>>TO SEND CODE FROM OUR STS TO GIT-HUB IN SUNNY REPOSITORY
+>>go to spring project properties and copy all the data and paste in sunny repository readme file in our file
+>>go to git bash
+>>git clone sunny-url
+>>dir , cd sunny, git status, git add .
+>>git commit -m "changes"
+>>git push
+
+
+ >>>>>>>EDIT CODE IN STS AND CHANGES HAPPEN IN GITHUB-WEB
+>>go to sts and import the project from git where we have added
+>>and change some code in the sts environment
+>>go to git folder and create a new folder
+>>and go to git bash and git clone same url git clone sunny
+>>dir , cd sunny, git status , we get modifiers of changes
+>>git add .
+>>git commit -m "changes"
+>>git push
+
+
+ >>>>>>>GIT BRANCH
+>>go to git folder and open existing git repository
+>>git branch branchone    : creates new branch one
+>>git branch -a  : shows branches , branchone and main  , to check branches
+>>git checkout branchone  : we  entered into branchone instead of main  changing from main branch to branchone
+>>git push
+ >>git push --set-upstream origin branchtwo   : push is used to push branch in github.com & also code changes
+
+
+
+
+
+

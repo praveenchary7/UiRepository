@@ -1,0 +1,15 @@
+SELECT * FROM hib.employee;
+select count(*) from hib.employee;
+select max(esal) from hib.employee;
+select min(esal) from hib.employee;
+select sum(esal) from hib.employee;
+select avg(esal) from hib.employee;
+
+select distinct(ename) from hib.employee;
+
+select * from hib.employee order by esal desc;
+select * from hib.employee group by edesig;
+select * from hib.employee group by edesig order by esal;
+select sum(esal), edesig from hib.employee group by edesig;
+select max(esal), min(esal), count(*), edesig from hib.employee group by edesig;
+
